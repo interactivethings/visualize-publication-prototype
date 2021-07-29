@@ -31,7 +31,7 @@ import {
   useAllChaptersQuery,
   useChapterQuery,
 } from "../../graphql/dato-queries";
-import { client } from "../../graphql/provider";
+import { getClient } from "../../graphql/urql-client";
 import { PageMeta } from "../../types";
 
 interface PageProps extends PageMeta {
@@ -42,7 +42,7 @@ interface PageProps extends PageMeta {
 export const getServerSideProps: GetServerSideProps<PageProps> = async ({
   params: { slug },
 }) => {
-  const siteInfo = await client
+  const siteInfo = await getClient()
     .query<GraphicQuery>(GraphicDocument, { slug })
     .toPromise();
 

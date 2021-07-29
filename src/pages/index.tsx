@@ -2,7 +2,6 @@ import {
   Alert,
   AlertIcon,
   Box,
-  Center,
   Heading,
   LinkBox,
   LinkOverlay,
@@ -12,7 +11,6 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
-import Head from "next/head";
 import { Hero } from "../components/hero";
 import { RouteLink } from "../components/link";
 import { TypeSwitch } from "../components/type-switch";
@@ -21,11 +19,11 @@ import {
   SiteInfoQuery,
   useAllChaptersQuery,
 } from "../graphql/dato-queries";
-import { client } from "../graphql/provider";
+import { getClient } from "../graphql/urql-client";
 import { PageMeta } from "../types";
 
 export const getServerSideProps: GetServerSideProps<PageMeta> = async () => {
-  const siteInfo = await client
+  const siteInfo = await getClient()
     .query<SiteInfoQuery>(SiteInfoDocument)
     .toPromise();
 

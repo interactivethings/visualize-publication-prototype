@@ -2,7 +2,6 @@ import {
   Alert,
   AlertIcon,
   Box,
-  Center,
   Heading,
   LinkBox,
   LinkOverlay,
@@ -20,11 +19,11 @@ import {
   SiteInfoQuery,
   useAllGraphicsQuery,
 } from "../graphql/dato-queries";
-import { client } from "../graphql/provider";
+import { getClient } from "../graphql/urql-client";
 import { PageMeta } from "../types";
 
 export const getServerSideProps: GetServerSideProps<PageMeta> = async () => {
-  const siteInfo = await client
+  const siteInfo = await getClient()
     .query<SiteInfoQuery>(SiteInfoDocument)
     .toPromise();
 
