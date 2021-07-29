@@ -10,6 +10,7 @@ import {
 import { GetServerSideProps } from "next";
 import { Hero } from "../components/hero";
 import { TypeSwitch } from "../components/type-switch";
+import { VisualizePreview } from "../components/visualize-preview";
 import {
   SiteInfoDocument,
   SiteInfoQuery,
@@ -74,6 +75,7 @@ export default function Graphics(props: Props) {
                     >
                       {d.title}
                     </Box>
+                    <VisualizePreview chartId={d.visualizeChartId} />
                   </Box>
                 </Box>
               );

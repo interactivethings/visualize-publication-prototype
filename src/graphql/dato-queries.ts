@@ -2164,7 +2164,7 @@ export type SiteInfoQuery = { __typename: 'Query', _site: { __typename: 'Site', 
 export type AllGraphicsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllGraphicsQuery = { __typename: 'Query', allVisualizeGraphics: Array<{ __typename: 'VisualizeGraphicRecord', id: any, title?: Maybe<string>, _status: ItemStatus, _firstPublishedAt?: Maybe<any> }>, _allVisualizeGraphicsMeta: { __typename: 'CollectionMetadata', count: any } };
+export type AllGraphicsQuery = { __typename: 'Query', allVisualizeGraphics: Array<{ __typename: 'VisualizeGraphicRecord', id: any, title?: Maybe<string>, visualizeChartId?: Maybe<string> }>, _allVisualizeGraphicsMeta: { __typename: 'CollectionMetadata', count: any } };
 
 
 export const SiteInfoDocument = gql`
@@ -2190,8 +2190,7 @@ export const AllGraphicsDocument = gql`
   allVisualizeGraphics {
     id
     title
-    _status
-    _firstPublishedAt
+    visualizeChartId
   }
   _allVisualizeGraphicsMeta {
     count

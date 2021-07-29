@@ -15,8 +15,7 @@ query AllGraphics {
   allVisualizeGraphics {
     id
     title
-    _status
-    _firstPublishedAt
+    visualizeChartId
   }
 
   _allVisualizeGraphicsMeta {
