@@ -1,0 +1,12 @@
+query AllGraphics {
+  allVisualizeGraphics {
+    id
+    title
+    _status
+    _firstPublishedAt
+  }
+
+  _allVisualizeGraphicsMeta {
+    count
+  }
+}

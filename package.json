@@ -4,16 +4,28 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "graphql-codegen && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "gql:dev": "DOTENV_CONFIG_PATH=.env.local graphql-codegen -r dotenv/config --watch"
   },
   "dependencies": {
+    "@chakra-ui/react": "^1.6.5",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "framer-motion": "^4",
+    "graphql": "^15.5.1",
     "next": "^11.0.1",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "urql": "^2.0.4"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^1.21.7",
+    "@graphql-codegen/introspection": "^1.18.2",
+    "@graphql-codegen/typescript": "^1.23.0",
+    "@graphql-codegen/typescript-operations": "^1.18.4",
+    "@graphql-codegen/typescript-urql": "^2.0.11",
     "@types/react": "^17.0.15",
     "eslint": "^7.31.0",
     "eslint-config-next": "^11.0.1",

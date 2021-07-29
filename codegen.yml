@@ -1,0 +1,21 @@
+schema:
+  - ${NEXT_PUBLIC_DATOCMS_API_ENDPOINT}:
+      headers:
+        authorization: Bearer ${NEXT_PUBLIC_DATOCMS_API_TOKEN}
+documents: ./src/graphql/*.graphql
+generates:
+  # ./src/graphql/dato.schema.json:
+  #   plugins:
+  #     - introspection
+  ./src/graphql/dato-queries.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-urql
+    config:
+      nonOptionalTypename: true
+      withComponent: false
+      preResolveTypes: true
+      namingConvention:
+        transformUnderscore: true
+        enumValues: keep
