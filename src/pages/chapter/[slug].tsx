@@ -15,8 +15,9 @@ import {
 } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import { ChapterHeader } from "../../components/chapter";
 import { Hero } from "../../components/hero";
-import { Link } from "../../components/link";
+import { RouteLink } from "../../components/link";
 import { TypeSwitch } from "../../components/type-switch";
 import {
   ChapterDocument,
@@ -32,6 +33,7 @@ import { PageMeta } from "../../types";
 interface PageProps extends PageMeta {
   slug: string;
   title: string;
+  number: number;
   content: ChapterQuery["chapter"]["content"];
 }
 
@@ -59,16 +61,17 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
       },
       title: chapter.title,
       content: chapter.content,
+      number: chapter.position,
     },
   };
 };
 
-export default function Chapter({ content, title }: PageProps) {
+export default function Chapter({ content, title, number }: PageProps) {
   return (
     <VStack spacing="10">
+      <ChapterHeader title={title} number={number} />
       <Container maxW="100ch">
         <Box>
-          <Heading>{title}</Heading>
           <Code>{JSON.stringify(content.value, null, 2)}</Code>
         </Box>
       </Container>

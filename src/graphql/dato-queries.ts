@@ -2414,12 +2414,12 @@ export type SiteInfoQuery = (
 export type AllGraphicsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllGraphicsQuery = { __typename: 'Query', allVisualizeGraphics: Array<{ __typename: 'VisualizeGraphicRecord', id: any, title?: Maybe<string>, visualizeChartId?: Maybe<string> }>, _allVisualizeGraphicsMeta: { __typename: 'CollectionMetadata', count: any } };
+export type AllGraphicsQuery = { __typename: 'Query', allVisualizeGraphics: Array<{ __typename: 'VisualizeGraphicRecord', id: any, title?: Maybe<string>, visualizeChartId?: Maybe<string> }> };
 
 export type AllChaptersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllChaptersQuery = { __typename: 'Query', allChapters: Array<{ __typename: 'ChapterRecord', id: any, title?: Maybe<string>, slug?: Maybe<string> }> };
+export type AllChaptersQuery = { __typename: 'Query', allChapters: Array<{ __typename: 'ChapterRecord', id: any, title?: Maybe<string>, slug?: Maybe<string>, position?: Maybe<any> }> };
 
 export type ChapterQueryVariables = Exact<{
   slug: Scalars['String'];
@@ -2427,7 +2427,7 @@ export type ChapterQueryVariables = Exact<{
 
 
 export type ChapterQuery = (
-  { __typename: 'Query', chapter?: Maybe<{ __typename: 'ChapterRecord', title?: Maybe<string>, slug?: Maybe<string>, content?: Maybe<{ __typename: 'ChapterModelContentField', value: any, links: Array<{ __typename: 'ChapterRecord', title?: Maybe<string>, id: any }>, blocks: Array<{ __typename: 'VisualizeGraphicBlockRecord', id: any, graphic?: Maybe<{ __typename: 'VisualizeGraphicRecord', visualizeChartId?: Maybe<string> }> }> }> }> }
+  { __typename: 'Query', chapter?: Maybe<{ __typename: 'ChapterRecord', title?: Maybe<string>, slug?: Maybe<string>, position?: Maybe<any>, content?: Maybe<{ __typename: 'ChapterModelContentField', value: any, links: Array<{ __typename: 'ChapterRecord', title?: Maybe<string>, id: any }>, blocks: Array<{ __typename: 'VisualizeGraphicBlockRecord', id: any, graphic?: Maybe<{ __typename: 'VisualizeGraphicRecord', visualizeChartId?: Maybe<string> }> }> }> }> }
   & SiteMetaFragment
 );
 
@@ -2461,9 +2461,6 @@ export const AllGraphicsDocument = gql`
     title
     visualizeChartId
   }
-  _allVisualizeGraphicsMeta {
-    count
-  }
 }
     `;
 
@@ -2476,6 +2473,7 @@ export const AllChaptersDocument = gql`
     id
     title
     slug
+    position
   }
 }
     `;
@@ -2489,6 +2487,7 @@ export const ChapterDocument = gql`
   chapter(filter: {slug: {eq: $slug}}) {
     title
     slug
+    position
     content {
       value
       links {

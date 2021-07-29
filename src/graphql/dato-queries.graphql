@@ -21,10 +21,6 @@ query AllGraphics {
     title
     visualizeChartId
   }
-
-  _allVisualizeGraphicsMeta {
-    count
-  }
 }
 
 query AllChapters {
@@ -32,6 +28,7 @@ query AllChapters {
     id
     title
     slug
+    position
   }
 }
 
@@ -40,6 +37,7 @@ query Chapter($slug: String!) {
   chapter(filter: { slug: { eq: $slug } }) {
     title
     slug
+    position
     content {
       value
       links {

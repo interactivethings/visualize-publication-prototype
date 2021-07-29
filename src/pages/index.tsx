@@ -14,7 +14,7 @@ import {
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { Hero } from "../components/hero";
-import { Link } from "../components/link";
+import { RouteLink } from "../components/link";
 import { TypeSwitch } from "../components/type-switch";
 import {
   SiteInfoDocument,
@@ -56,7 +56,7 @@ export default function Home(props: PageMeta) {
           </Alert>
         ) : query.data && query.data.allChapters.length > 0 ? (
           <SimpleGrid minChildWidth="20rem" spacing="4">
-            {query.data.allChapters.map((d, i) => {
+            {query.data.allChapters.map((d) => {
               return (
                 <LinkBox
                   boxShadow="lg"
@@ -72,11 +72,11 @@ export default function Home(props: PageMeta) {
                         fontSize="5xl"
                         fontWeight="normal"
                       >
-                        {i + 1}
+                        {d.position}
                       </Text>
-                      <Link href={`/chapter/${d.slug}`}>
+                      <RouteLink href={`/chapter/${d.slug}`}>
                         <LinkOverlay>{d.title}</LinkOverlay>
-                      </Link>
+                      </RouteLink>
                     </Heading>
                   </Box>
                 </LinkBox>
