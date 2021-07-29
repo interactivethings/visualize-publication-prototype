@@ -1,9 +1,8 @@
-import { Box, Heading, Link, Text, VStack } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
+import { Box, Heading, Link, Text, VStack } from "@chakra-ui/react";
 import { StructuredText } from "react-datocms";
-
-import { RouteLink } from "./link";
 import { ChapterModelContentField } from "../graphql/dato-queries";
+import { RouteLink } from "./link";
 import { VisualizePreview } from "./visualize-preview";
 
 export const ChapterHeader = ({
@@ -40,11 +39,7 @@ export const ChapterHeader = ({
   );
 };
 
-export const ChapterContent = ({
-  content,
-}: {
-  content: ChapterModelContentField;
-}) => {
+export const ChapterContent = ({ content }: { content: any }) => {
   return (
     <Box
       sx={{
@@ -84,7 +79,7 @@ export const ChapterContent = ({
               return (
                 <Box mt="6">
                   <VisualizePreview
-                    chartId={record.graphic?.visualizeChartId}
+                    chartId={(record.graphic as any)?.visualizeChartId}
                   />
                 </Box>
               );
@@ -102,7 +97,7 @@ export const ChapterContent = ({
               );
 
             default:
-              return record.id;
+              return null;
           }
         }}
       />

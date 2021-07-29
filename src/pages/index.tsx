@@ -65,7 +65,7 @@ export default function Home(props: PageMeta) {
                   borderWidth="1px"
                   key={d.id}
                 >
-                  <Box p="5">
+                  <Box p="5" minH="64">
                     <Heading as="h2" size="xl" pb="6">
                       <Text
                         color="green.400"

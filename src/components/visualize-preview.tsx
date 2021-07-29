@@ -12,13 +12,13 @@ export const VisualizePreview = ({
       as="iframe"
       src={`https://dev.visualize.admin.ch/${locale}/embed/${chartId}`}
       sx={{
-        border: "1px solid #f0f0f0",
+        // border: "1px solid #f0f0f0",
         width: "100%",
         aspectRatio: "4 / 3",
       }}
       name="visualize.admin.ch"
       scrolling="no"
-      frameBorder="1"
+      frameBorder="0"
       marginHeight={0}
       marginWidth={0}
     ></Box>

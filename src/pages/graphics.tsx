@@ -3,12 +3,16 @@ import {
   AlertIcon,
   Box,
   Center,
+  Heading,
+  LinkBox,
+  LinkOverlay,
   SimpleGrid,
   Spinner,
   VStack,
 } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
 import { Hero } from "../components/hero";
+import { RouteLink } from "../components/link";
 import { TypeSwitch } from "../components/type-switch";
 import { VisualizePreview } from "../components/visualize-preview";
 import {
@@ -53,7 +57,7 @@ export default function Graphics(props: PageMeta) {
           <SimpleGrid minChildWidth="20rem" spacing="4">
             {query.data.allVisualizeGraphics.map((d) => {
               return (
-                <Box
+                <LinkBox
                   boxShadow="lg"
                   bg="white"
                   rounded="lg"
@@ -61,17 +65,14 @@ export default function Graphics(props: PageMeta) {
                   key={d.id}
                 >
                   <Box p="5">
-                    <Box
-                      mt="1"
-                      fontWeight="semibold"
-                      as="h4"
-                      lineHeight="tight"
-                    >
-                      {d.title}
-                    </Box>
+                    <Heading size="md">
+                      <RouteLink href={`/graphic/${d.slug}`}>
+                        <LinkOverlay>{d.title}</LinkOverlay>
+                      </RouteLink>
+                    </Heading>
                     <VisualizePreview chartId={d.visualizeChartId} />
                   </Box>
-                </Box>
+                </LinkBox>
               );
             })}
           </SimpleGrid>

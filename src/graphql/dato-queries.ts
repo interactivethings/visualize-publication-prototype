@@ -2321,6 +2321,7 @@ export type VisualizeGraphicModelFilter = {
   _updatedAt?: Maybe<UpdatedAtFilter>;
   updatedAt?: Maybe<UpdatedAtFilter>;
   _isValid?: Maybe<BooleanFilter>;
+  slug?: Maybe<SlugFilter>;
   visualizeChartId?: Maybe<StringFilter>;
   title?: Maybe<StringFilter>;
   OR?: Maybe<Array<Maybe<VisualizeGraphicModelFilter>>>;
@@ -2358,6 +2359,7 @@ export enum VisualizeGraphicModelOrderBy {
 /** Record of type Visualize Graphic (visualize_graphic) */
 export type VisualizeGraphicRecord = {
   __typename: 'VisualizeGraphicRecord';
+  _allSlugLocales?: Maybe<Array<Maybe<StringMultiLocaleField>>>;
   _allTitleLocales?: Maybe<Array<Maybe<StringMultiLocaleField>>>;
   _createdAt: Scalars['DateTime'];
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
@@ -2372,9 +2374,16 @@ export type VisualizeGraphicRecord = {
   _updatedAt: Scalars['DateTime'];
   createdAt: Scalars['DateTime'];
   id: Scalars['ItemId'];
+  slug?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   visualizeChartId?: Maybe<Scalars['String']>;
+};
+
+
+/** Record of type Visualize Graphic (visualize_graphic) */
+export type VisualizeGraphicRecordAllSlugLocalesArgs = {
+  locale?: Maybe<SiteLocale>;
 };
 
 
@@ -2386,6 +2395,12 @@ export type VisualizeGraphicRecordAllTitleLocalesArgs = {
 
 /** Record of type Visualize Graphic (visualize_graphic) */
 export type VisualizeGraphicRecordSeoMetaTagsArgs = {
+  locale?: Maybe<SiteLocale>;
+};
+
+
+/** Record of type Visualize Graphic (visualize_graphic) */
+export type VisualizeGraphicRecordSlugArgs = {
   locale?: Maybe<SiteLocale>;
 };
 
@@ -2414,7 +2429,7 @@ export type SiteInfoQuery = (
 export type AllGraphicsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllGraphicsQuery = { __typename: 'Query', allVisualizeGraphics: Array<{ __typename: 'VisualizeGraphicRecord', id: any, title?: Maybe<string>, visualizeChartId?: Maybe<string> }> };
+export type AllGraphicsQuery = { __typename: 'Query', allVisualizeGraphics: Array<{ __typename: 'VisualizeGraphicRecord', id: any, title?: Maybe<string>, slug?: Maybe<string>, visualizeChartId?: Maybe<string> }> };
 
 export type AllChaptersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2428,6 +2443,16 @@ export type ChapterQueryVariables = Exact<{
 
 export type ChapterQuery = (
   { __typename: 'Query', chapter?: Maybe<{ __typename: 'ChapterRecord', title?: Maybe<string>, slug?: Maybe<string>, position?: Maybe<any>, content?: Maybe<{ __typename: 'ChapterModelContentField', value: any, links: Array<{ __typename: 'ChapterRecord', id: any, title?: Maybe<string>, slug?: Maybe<string>, position?: Maybe<any> }>, blocks: Array<{ __typename: 'VisualizeGraphicBlockRecord', id: any, graphic?: Maybe<{ __typename: 'VisualizeGraphicRecord', visualizeChartId?: Maybe<string> }> }> }> }> }
+  & SiteMetaFragment
+);
+
+export type GraphicQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+export type GraphicQuery = (
+  { __typename: 'Query', visualizeGraphic?: Maybe<{ __typename: 'VisualizeGraphicRecord', title?: Maybe<string>, slug?: Maybe<string>, visualizeChartId?: Maybe<string> }> }
   & SiteMetaFragment
 );
 
@@ -2459,6 +2484,7 @@ export const AllGraphicsDocument = gql`
   allVisualizeGraphics {
     id
     title
+    slug
     visualizeChartId
   }
 }
@@ -2513,4 +2539,18 @@ export const ChapterDocument = gql`
 
 export function useChapterQuery(options: Omit<Urql.UseQueryArgs<ChapterQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ChapterQuery>({ query: ChapterDocument, ...options });
+};
+export const GraphicDocument = gql`
+    query Graphic($slug: String!) {
+  ...siteMeta
+  visualizeGraphic(filter: {slug: {eq: $slug}}) {
+    title
+    slug
+    visualizeChartId
+  }
+}
+    ${SiteMetaFragmentDoc}`;
+
+export function useGraphicQuery(options: Omit<Urql.UseQueryArgs<GraphicQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GraphicQuery>({ query: GraphicDocument, ...options });
 };
