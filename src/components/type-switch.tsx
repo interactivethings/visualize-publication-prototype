@@ -19,11 +19,11 @@ export const TypeSwitch = ({}) => {
           Grafiken
         </Button>
       </RouteLink>
-      <RouteLink href={`/tables`}>
+      {/* <RouteLink href={`/tables`}>
         <Button as="a" variant={pathname === "/tables" ? "solid" : "outline"}>
           Tabellen
         </Button>
-      </RouteLink>
+      </RouteLink> */}
     </ButtonGroup>
   );
 };
