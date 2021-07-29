@@ -1,3 +1,16 @@
+query SiteInfo {
+  _site {
+    globalSeo {
+      siteName
+      fallbackSeo {
+        description
+        title
+        twitterCard
+      }
+    }
+  }
+}
+
 query AllGraphics {
   allVisualizeGraphics {
     id

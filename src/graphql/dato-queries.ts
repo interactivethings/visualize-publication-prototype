@@ -2156,12 +2156,35 @@ export type FocalPoint = {
   y?: Maybe<Scalars['FloatType']>;
 };
 
+export type SiteInfoQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SiteInfoQuery = { __typename: 'Query', _site: { __typename: 'Site', globalSeo?: Maybe<{ __typename: 'GlobalSeoField', siteName?: Maybe<string>, fallbackSeo?: Maybe<{ __typename: 'SeoField', description?: Maybe<string>, title?: Maybe<string>, twitterCard?: Maybe<string> }> }> } };
+
 export type AllGraphicsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type AllGraphicsQuery = { __typename: 'Query', allVisualizeGraphics: Array<{ __typename: 'VisualizeGraphicRecord', id: any, title?: Maybe<string>, _status: ItemStatus, _firstPublishedAt?: Maybe<any> }>, _allVisualizeGraphicsMeta: { __typename: 'CollectionMetadata', count: any } };
 
 
+export const SiteInfoDocument = gql`
+    query SiteInfo {
+  _site {
+    globalSeo {
+      siteName
+      fallbackSeo {
+        description
+        title
+        twitterCard
+      }
+    }
+  }
+}
+    `;
+
+export function useSiteInfoQuery(options: Omit<Urql.UseQueryArgs<SiteInfoQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<SiteInfoQuery>({ query: SiteInfoDocument, ...options });
+};
 export const AllGraphicsDocument = gql`
     query AllGraphics {
   allVisualizeGraphics {

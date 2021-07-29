@@ -7,18 +7,44 @@ import {
   Spinner,
   VStack,
 } from "@chakra-ui/react";
+import { GetServerSideProps } from "next";
 import { Hero } from "../components/hero";
 import { TypeSwitch } from "../components/type-switch";
-import { useAllGraphicsQuery } from "../graphql/dato-queries";
+import {
+  SiteInfoDocument,
+  SiteInfoQuery,
+  useAllGraphicsQuery,
+} from "../graphql/dato-queries";
+import { client } from "../graphql/provider";
 
-export default function Graphics() {
+interface Props {
+  meta: {
+    title: string | undefined;
+    description: string | undefined;
+  };
+}
+
+export const getServerSideProps: GetServerSideProps<Props> = async () => {
+  const siteInfo = await client
+    .query<SiteInfoQuery>(SiteInfoDocument)
+    .toPromise();
+
+  return {
+    props: {
+      meta: {
+        title: siteInfo.data?._site?.globalSeo?.siteName,
+        description: siteInfo.data?._site?.globalSeo?.fallbackSeo?.description,
+      },
+    },
+  };
+};
+
+export default function Graphics(props: Props) {
   const [query] = useAllGraphicsQuery();
-
-  console.log(query.data);
 
   return (
     <VStack spacing="10">
-      <Hero title="Hello" lead="World" />
+      <Hero title={props.meta.title} lead={props.meta.description} />
       <TypeSwitch />
       <Box w="100%" px="4">
         {query.fetching ? (
@@ -29,7 +55,7 @@ export default function Graphics() {
             Ein Fehler ist aufgetreten!
           </Alert>
         ) : query.data && query.data.allVisualizeGraphics.length > 0 ? (
-          <SimpleGrid minChildWidth="20rem" spacing="2rem">
+          <SimpleGrid minChildWidth="20rem" spacing="4">
             {query.data.allVisualizeGraphics.map((d) => {
               return (
                 <Box

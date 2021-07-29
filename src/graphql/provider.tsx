@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { createClient, Provider } from "urql";
 
-const client = createClient({
+export const client = createClient({
   url: process.env.NEXT_PUBLIC_DATOCMS_API_ENDPOINT,
   fetchOptions: {
     headers: {
