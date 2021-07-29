@@ -22,3 +22,35 @@ query AllGraphics {
     count
   }
 }
+
+query AllChapters {
+  allChapters {
+    id
+    title
+    slug
+  }
+}
+
+query AllChaptersWithContent {
+  allChapters {
+    title
+    slug
+    content {
+      value
+      links {
+        id
+        ... on ChapterRecord {
+          title
+        }
+      }
+      blocks {
+        id
+        ... on VisualizeGraphicBlockRecord {
+          graphic {
+            visualizeChartId
+          }
+        }
+      }
+    }
+  }
+}

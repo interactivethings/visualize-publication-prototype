@@ -22,6 +22,7 @@ export type Scalars = {
   /** Represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. */
   IntType: any;
   ItemId: any;
+  JsonField: any;
   MetaTagAttributes: any;
   UploadId: any;
 };
@@ -32,6 +33,152 @@ export type BooleanFilter = {
   eq?: Maybe<Scalars['BooleanType']>;
 };
 
+
+export type ChapterModelContentField = {
+  __typename: 'ChapterModelContentField';
+  blocks: Array<VisualizeGraphicBlockRecord>;
+  links: Array<ChapterRecord>;
+  value: Scalars['JsonField'];
+};
+
+export type ChapterModelContentFieldMultiLocaleField = {
+  __typename: 'ChapterModelContentFieldMultiLocaleField';
+  locale?: Maybe<SiteLocale>;
+  value?: Maybe<ChapterModelContentField>;
+};
+
+export type ChapterModelFilter = {
+  _createdAt?: Maybe<CreatedAtFilter>;
+  createdAt?: Maybe<CreatedAtFilter>;
+  id?: Maybe<ItemIdFilter>;
+  _firstPublishedAt?: Maybe<PublishedAtFilter>;
+  position?: Maybe<PositionFilter>;
+  _publicationScheduledAt?: Maybe<PublishedAtFilter>;
+  _unpublishingScheduledAt?: Maybe<PublishedAtFilter>;
+  _publishedAt?: Maybe<PublishedAtFilter>;
+  _status?: Maybe<StatusFilter>;
+  _updatedAt?: Maybe<UpdatedAtFilter>;
+  updatedAt?: Maybe<UpdatedAtFilter>;
+  _isValid?: Maybe<BooleanFilter>;
+  slug?: Maybe<SlugFilter>;
+  lead?: Maybe<StringFilter>;
+  content?: Maybe<StructuredTextFilter>;
+  title?: Maybe<StringFilter>;
+  OR?: Maybe<Array<Maybe<ChapterModelFilter>>>;
+};
+
+export enum ChapterModelOrderBy {
+  _createdAt_ASC = '_createdAt_ASC',
+  _createdAt_DESC = '_createdAt_DESC',
+  createdAt_ASC = 'createdAt_ASC',
+  createdAt_DESC = 'createdAt_DESC',
+  id_ASC = 'id_ASC',
+  id_DESC = 'id_DESC',
+  _firstPublishedAt_ASC = '_firstPublishedAt_ASC',
+  _firstPublishedAt_DESC = '_firstPublishedAt_DESC',
+  position_ASC = 'position_ASC',
+  position_DESC = 'position_DESC',
+  _publicationScheduledAt_ASC = '_publicationScheduledAt_ASC',
+  _publicationScheduledAt_DESC = '_publicationScheduledAt_DESC',
+  _unpublishingScheduledAt_ASC = '_unpublishingScheduledAt_ASC',
+  _unpublishingScheduledAt_DESC = '_unpublishingScheduledAt_DESC',
+  _publishedAt_ASC = '_publishedAt_ASC',
+  _publishedAt_DESC = '_publishedAt_DESC',
+  _status_ASC = '_status_ASC',
+  _status_DESC = '_status_DESC',
+  _updatedAt_ASC = '_updatedAt_ASC',
+  _updatedAt_DESC = '_updatedAt_DESC',
+  updatedAt_ASC = 'updatedAt_ASC',
+  updatedAt_DESC = 'updatedAt_DESC',
+  _isValid_ASC = '_isValid_ASC',
+  _isValid_DESC = '_isValid_DESC',
+  lead_ASC = 'lead_ASC',
+  lead_DESC = 'lead_DESC',
+  title_ASC = 'title_ASC',
+  title_DESC = 'title_DESC'
+}
+
+/** Record of type Chapter (chapter) */
+export type ChapterRecord = {
+  __typename: 'ChapterRecord';
+  _allContentLocales?: Maybe<Array<Maybe<ChapterModelContentFieldMultiLocaleField>>>;
+  _allLeadLocales?: Maybe<Array<Maybe<StringMultiLocaleField>>>;
+  _allSlugLocales?: Maybe<Array<Maybe<StringMultiLocaleField>>>;
+  _allTitleLocales?: Maybe<Array<Maybe<StringMultiLocaleField>>>;
+  _createdAt: Scalars['DateTime'];
+  _firstPublishedAt?: Maybe<Scalars['DateTime']>;
+  _isValid: Scalars['BooleanType'];
+  _modelApiKey: Scalars['String'];
+  _publicationScheduledAt?: Maybe<Scalars['DateTime']>;
+  _publishedAt?: Maybe<Scalars['DateTime']>;
+  /** SEO meta tags */
+  _seoMetaTags: Array<Tag>;
+  _status: ItemStatus;
+  _unpublishingScheduledAt?: Maybe<Scalars['DateTime']>;
+  _updatedAt: Scalars['DateTime'];
+  content?: Maybe<ChapterModelContentField>;
+  createdAt: Scalars['DateTime'];
+  id: Scalars['ItemId'];
+  lead?: Maybe<Scalars['String']>;
+  position?: Maybe<Scalars['IntType']>;
+  slug?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  updatedAt: Scalars['DateTime'];
+};
+
+
+/** Record of type Chapter (chapter) */
+export type ChapterRecordAllContentLocalesArgs = {
+  locale?: Maybe<SiteLocale>;
+};
+
+
+/** Record of type Chapter (chapter) */
+export type ChapterRecordAllLeadLocalesArgs = {
+  locale?: Maybe<SiteLocale>;
+};
+
+
+/** Record of type Chapter (chapter) */
+export type ChapterRecordAllSlugLocalesArgs = {
+  locale?: Maybe<SiteLocale>;
+};
+
+
+/** Record of type Chapter (chapter) */
+export type ChapterRecordAllTitleLocalesArgs = {
+  locale?: Maybe<SiteLocale>;
+};
+
+
+/** Record of type Chapter (chapter) */
+export type ChapterRecordSeoMetaTagsArgs = {
+  locale?: Maybe<SiteLocale>;
+};
+
+
+/** Record of type Chapter (chapter) */
+export type ChapterRecordContentArgs = {
+  locale?: Maybe<SiteLocale>;
+};
+
+
+/** Record of type Chapter (chapter) */
+export type ChapterRecordLeadArgs = {
+  locale?: Maybe<SiteLocale>;
+};
+
+
+/** Record of type Chapter (chapter) */
+export type ChapterRecordSlugArgs = {
+  locale?: Maybe<SiteLocale>;
+};
+
+
+/** Record of type Chapter (chapter) */
+export type ChapterRecordTitleArgs = {
+  locale?: Maybe<SiteLocale>;
+};
 
 export type CollectionMetadata = {
   __typename: 'CollectionMetadata';
@@ -1476,6 +1623,7 @@ export enum ItemStatus {
 }
 
 
+
 export enum MuxThumbnailFormatType {
   jpg = 'jpg',
   png = 'png',
@@ -1488,6 +1636,22 @@ export type OrientationFilter = {
   eq?: Maybe<UploadOrientation>;
   /** Exclude uploads with the specified orientation */
   neq?: Maybe<UploadOrientation>;
+};
+
+/** Specifies how to filter by position (sorted and tree-like collections) */
+export type PositionFilter = {
+  /** Filter records with a value that's strictly greater than the one specified */
+  gt?: Maybe<Scalars['IntType']>;
+  /** Filter records with a value that's less than the one specified */
+  lt?: Maybe<Scalars['IntType']>;
+  /** Filter records with a value that's greater than or equal to the one specified */
+  gte?: Maybe<Scalars['IntType']>;
+  /** Filter records with a value that's less or equal than the one specified */
+  lte?: Maybe<Scalars['IntType']>;
+  /** Search for records with an exact match */
+  eq?: Maybe<Scalars['IntType']>;
+  /** Exclude records with an exact match */
+  neq?: Maybe<Scalars['IntType']>;
 };
 
 /** Specifies how to filter by publication datetime */
@@ -1511,20 +1675,33 @@ export type PublishedAtFilter = {
 /** The query root for this schema */
 export type Query = {
   __typename: 'Query';
+  /** Returns meta information regarding a record collection */
+  _allChaptersMeta: CollectionMetadata;
   /** Returns meta information regarding an assets collection */
   _allUploadsMeta?: Maybe<CollectionMetadata>;
   /** Returns meta information regarding a record collection */
   _allVisualizeGraphicsMeta: CollectionMetadata;
   /** Returns the single instance record */
   _site: Site;
+  /** Returns a collection of records */
+  allChapters: Array<ChapterRecord>;
   /** Returns a collection of assets */
   allUploads: Array<FileField>;
   /** Returns a collection of records */
   allVisualizeGraphics: Array<VisualizeGraphicRecord>;
+  /** Returns a specific record */
+  chapter?: Maybe<ChapterRecord>;
   /** Returns a specific asset */
   upload?: Maybe<FileField>;
   /** Returns a specific record */
   visualizeGraphic?: Maybe<VisualizeGraphicRecord>;
+};
+
+
+/** The query root for this schema */
+export type QueryAllChaptersMetaArgs = {
+  locale?: Maybe<SiteLocale>;
+  filter?: Maybe<ChapterModelFilter>;
 };
 
 
@@ -1549,6 +1726,16 @@ export type QuerySiteArgs = {
 
 
 /** The query root for this schema */
+export type QueryAllChaptersArgs = {
+  locale?: Maybe<SiteLocale>;
+  skip?: Maybe<Scalars['IntType']>;
+  first?: Maybe<Scalars['IntType']>;
+  filter?: Maybe<ChapterModelFilter>;
+  orderBy?: Maybe<Array<Maybe<ChapterModelOrderBy>>>;
+};
+
+
+/** The query root for this schema */
 export type QueryAllUploadsArgs = {
   locale?: Maybe<SiteLocale>;
   skip?: Maybe<Scalars['IntType']>;
@@ -1565,6 +1752,14 @@ export type QueryAllVisualizeGraphicsArgs = {
   first?: Maybe<Scalars['IntType']>;
   filter?: Maybe<VisualizeGraphicModelFilter>;
   orderBy?: Maybe<Array<Maybe<VisualizeGraphicModelOrderBy>>>;
+};
+
+
+/** The query root for this schema */
+export type QueryChapterArgs = {
+  locale?: Maybe<SiteLocale>;
+  filter?: Maybe<ChapterModelFilter>;
+  orderBy?: Maybe<Array<Maybe<ChapterModelOrderBy>>>;
 };
 
 
@@ -1647,6 +1842,18 @@ export enum SiteLocale {
   fr = 'fr'
 }
 
+/** Specifies how to filter Slug fields */
+export type SlugFilter = {
+  /** Search for records with an exact match */
+  eq?: Maybe<Scalars['String']>;
+  /** Exclude records with an exact match */
+  neq?: Maybe<Scalars['String']>;
+  /** Filter records that have one of the specified slugs */
+  in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Filter records that do have one of the specified slugs */
+  notIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
 /** Specifies how to filter by status */
 export type StatusFilter = {
   /** Search the record with the specified status */
@@ -1689,6 +1896,18 @@ export type StringMultiLocaleField = {
   __typename: 'StringMultiLocaleField';
   locale?: Maybe<SiteLocale>;
   value?: Maybe<Scalars['String']>;
+};
+
+/** Specifies how to filter Structured Text fields */
+export type StructuredTextFilter = {
+  /** Filter records based on a regular expression */
+  matches?: Maybe<StringMatchesFilter>;
+  /** Exclude records based on a regular expression */
+  notMatches?: Maybe<StringMatchesFilter>;
+  /** Filter records with the specified field set as blank (null or single empty paragraph) */
+  isBlank?: Maybe<Scalars['BooleanType']>;
+  /** Filter records with the specified field defined (i.e. with any value) or not */
+  exists?: Maybe<Scalars['BooleanType']>;
 };
 
 export type Tag = {
@@ -2064,6 +2283,32 @@ export enum VideoMp4Res {
   high = 'high'
 }
 
+/** Record of type Visualize Graphic Block (visualize_graphic_block) */
+export type VisualizeGraphicBlockRecord = {
+  __typename: 'VisualizeGraphicBlockRecord';
+  _createdAt: Scalars['DateTime'];
+  _firstPublishedAt?: Maybe<Scalars['DateTime']>;
+  _isValid: Scalars['BooleanType'];
+  _modelApiKey: Scalars['String'];
+  _publicationScheduledAt?: Maybe<Scalars['DateTime']>;
+  _publishedAt?: Maybe<Scalars['DateTime']>;
+  /** SEO meta tags */
+  _seoMetaTags: Array<Tag>;
+  _status: ItemStatus;
+  _unpublishingScheduledAt?: Maybe<Scalars['DateTime']>;
+  _updatedAt: Scalars['DateTime'];
+  createdAt: Scalars['DateTime'];
+  graphic?: Maybe<VisualizeGraphicRecord>;
+  id: Scalars['ItemId'];
+  updatedAt: Scalars['DateTime'];
+};
+
+
+/** Record of type Visualize Graphic Block (visualize_graphic_block) */
+export type VisualizeGraphicBlockRecordSeoMetaTagsArgs = {
+  locale?: Maybe<SiteLocale>;
+};
+
 export type VisualizeGraphicModelFilter = {
   _createdAt?: Maybe<CreatedAtFilter>;
   createdAt?: Maybe<CreatedAtFilter>;
@@ -2166,6 +2411,16 @@ export type AllGraphicsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type AllGraphicsQuery = { __typename: 'Query', allVisualizeGraphics: Array<{ __typename: 'VisualizeGraphicRecord', id: any, title?: Maybe<string>, visualizeChartId?: Maybe<string> }>, _allVisualizeGraphicsMeta: { __typename: 'CollectionMetadata', count: any } };
 
+export type AllChaptersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllChaptersQuery = { __typename: 'Query', allChapters: Array<{ __typename: 'ChapterRecord', id: any, title?: Maybe<string>, slug?: Maybe<string> }> };
+
+export type AllChaptersWithContentQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllChaptersWithContentQuery = { __typename: 'Query', allChapters: Array<{ __typename: 'ChapterRecord', title?: Maybe<string>, slug?: Maybe<string>, content?: Maybe<{ __typename: 'ChapterModelContentField', value: any, links: Array<{ __typename: 'ChapterRecord', title?: Maybe<string>, id: any }>, blocks: Array<{ __typename: 'VisualizeGraphicBlockRecord', id: any, graphic?: Maybe<{ __typename: 'VisualizeGraphicRecord', visualizeChartId?: Maybe<string> }> }> }> }> };
+
 
 export const SiteInfoDocument = gql`
     query SiteInfo {
@@ -2200,4 +2455,46 @@ export const AllGraphicsDocument = gql`
 
 export function useAllGraphicsQuery(options: Omit<Urql.UseQueryArgs<AllGraphicsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<AllGraphicsQuery>({ query: AllGraphicsDocument, ...options });
+};
+export const AllChaptersDocument = gql`
+    query AllChapters {
+  allChapters {
+    id
+    title
+    slug
+  }
+}
+    `;
+
+export function useAllChaptersQuery(options: Omit<Urql.UseQueryArgs<AllChaptersQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<AllChaptersQuery>({ query: AllChaptersDocument, ...options });
+};
+export const AllChaptersWithContentDocument = gql`
+    query AllChaptersWithContent {
+  allChapters {
+    title
+    slug
+    content {
+      value
+      links {
+        id
+        ... on ChapterRecord {
+          title
+        }
+      }
+      blocks {
+        id
+        ... on VisualizeGraphicBlockRecord {
+          graphic {
+            visualizeChartId
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+export function useAllChaptersWithContentQuery(options: Omit<Urql.UseQueryArgs<AllChaptersWithContentQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<AllChaptersWithContentQuery>({ query: AllChaptersWithContentDocument, ...options });
 };

@@ -17,15 +17,9 @@ import {
   useAllGraphicsQuery,
 } from "../graphql/dato-queries";
 import { client } from "../graphql/provider";
+import { PageMeta } from "../types";
 
-interface Props {
-  meta: {
-    title: string | undefined;
-    description: string | undefined;
-  };
-}
-
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
+export const getServerSideProps: GetServerSideProps<PageMeta> = async () => {
   const siteInfo = await client
     .query<SiteInfoQuery>(SiteInfoDocument)
     .toPromise();
@@ -40,7 +34,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
   };
 };
 
-export default function Graphics(props: Props) {
+export default function Graphics(props: PageMeta) {
   const [query] = useAllGraphicsQuery();
 
   return (
