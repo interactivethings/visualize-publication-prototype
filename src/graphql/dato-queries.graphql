@@ -41,9 +41,11 @@ query Chapter($slug: String!) {
     content {
       value
       links {
-        id
         ... on ChapterRecord {
+          id
           title
+          slug
+          position
         }
       }
       blocks {

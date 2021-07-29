@@ -2427,7 +2427,7 @@ export type ChapterQueryVariables = Exact<{
 
 
 export type ChapterQuery = (
-  { __typename: 'Query', chapter?: Maybe<{ __typename: 'ChapterRecord', title?: Maybe<string>, slug?: Maybe<string>, position?: Maybe<any>, content?: Maybe<{ __typename: 'ChapterModelContentField', value: any, links: Array<{ __typename: 'ChapterRecord', title?: Maybe<string>, id: any }>, blocks: Array<{ __typename: 'VisualizeGraphicBlockRecord', id: any, graphic?: Maybe<{ __typename: 'VisualizeGraphicRecord', visualizeChartId?: Maybe<string> }> }> }> }> }
+  { __typename: 'Query', chapter?: Maybe<{ __typename: 'ChapterRecord', title?: Maybe<string>, slug?: Maybe<string>, position?: Maybe<any>, content?: Maybe<{ __typename: 'ChapterModelContentField', value: any, links: Array<{ __typename: 'ChapterRecord', id: any, title?: Maybe<string>, slug?: Maybe<string>, position?: Maybe<any> }>, blocks: Array<{ __typename: 'VisualizeGraphicBlockRecord', id: any, graphic?: Maybe<{ __typename: 'VisualizeGraphicRecord', visualizeChartId?: Maybe<string> }> }> }> }> }
   & SiteMetaFragment
 );
 
@@ -2491,9 +2491,11 @@ export const ChapterDocument = gql`
     content {
       value
       links {
-        id
         ... on ChapterRecord {
+          id
           title
+          slug
+          position
         }
       }
       blocks {

@@ -43,7 +43,7 @@ export default function Home(props: PageMeta) {
   const [query] = useAllChaptersQuery();
 
   return (
-    <VStack spacing="10">
+    <VStack spacing="10" pb="24">
       <Hero title={props.meta.title} lead={props.meta.description} />
       <TypeSwitch />
       <Box w="100%" px="4">
