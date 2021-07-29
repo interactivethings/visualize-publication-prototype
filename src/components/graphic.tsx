@@ -5,7 +5,7 @@ import { RouteLink } from "./link";
 export const GraphicHeader = ({ title }: { title: string }) => {
   return (
     <VStack
-      bg="green.400"
+      bg="green.500"
       p="6"
       color="white"
       w="100%"

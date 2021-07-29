@@ -14,7 +14,7 @@ export const ChapterHeader = ({
 }) => {
   return (
     <VStack
-      bg="green.400"
+      bg="green.500"
       p="6"
       color="white"
       w="100%"
@@ -92,7 +92,7 @@ export const ChapterContent = ({ content }: { content: any }) => {
             case "ChapterRecord":
               return (
                 <RouteLink href={`/chapter/${record.slug}`}>
-                  <Link color="green.400">Kapitel {record.title}</Link>
+                  <Link color="green.500">Kapitel {record.title}</Link>
                 </RouteLink>
               );
 

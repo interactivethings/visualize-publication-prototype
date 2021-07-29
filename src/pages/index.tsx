@@ -68,7 +68,7 @@ export default function Home(props: PageMeta) {
                   <Box p="5" minH="64">
                     <Heading as="h2" size="xl" pb="6">
                       <Text
-                        color="green.400"
+                        color="green.500"
                         fontSize="5xl"
                         fontWeight="normal"
                       >

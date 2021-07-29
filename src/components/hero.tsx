@@ -9,7 +9,7 @@ import {
 
 export const Hero = ({ title, lead }: { title: string; lead: string }) => {
   return (
-    <Center w="100%" bg="green.400" py="40" color="white">
+    <Center w="100%" bg="green.500" py="40" color="white">
       <Container maxW="64rem">
         <VStack spacing="6">
           <Heading size="3xl">{title}</Heading>
