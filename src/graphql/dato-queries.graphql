@@ -1,4 +1,4 @@
-query SiteInfo {
+fragment siteMeta on Query {
   _site {
     globalSeo {
       siteName
@@ -9,6 +9,10 @@ query SiteInfo {
       }
     }
   }
+}
+
+query SiteInfo {
+  ...siteMeta
 }
 
 query AllGraphics {
@@ -31,8 +35,9 @@ query AllChapters {
   }
 }
 
-query AllChaptersWithContent {
-  allChapters {
+query Chapter($slug: String!) {
+  ...siteMeta
+  chapter(filter: { slug: { eq: $slug } }) {
     title
     slug
     content {

@@ -2401,10 +2401,15 @@ export type FocalPoint = {
   y?: Maybe<Scalars['FloatType']>;
 };
 
+export type SiteMetaFragment = { __typename: 'Query', _site: { __typename: 'Site', globalSeo?: Maybe<{ __typename: 'GlobalSeoField', siteName?: Maybe<string>, fallbackSeo?: Maybe<{ __typename: 'SeoField', description?: Maybe<string>, title?: Maybe<string>, twitterCard?: Maybe<string> }> }> } };
+
 export type SiteInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SiteInfoQuery = { __typename: 'Query', _site: { __typename: 'Site', globalSeo?: Maybe<{ __typename: 'GlobalSeoField', siteName?: Maybe<string>, fallbackSeo?: Maybe<{ __typename: 'SeoField', description?: Maybe<string>, title?: Maybe<string>, twitterCard?: Maybe<string> }> }> } };
+export type SiteInfoQuery = (
+  { __typename: 'Query' }
+  & SiteMetaFragment
+);
 
 export type AllGraphicsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2416,14 +2421,18 @@ export type AllChaptersQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type AllChaptersQuery = { __typename: 'Query', allChapters: Array<{ __typename: 'ChapterRecord', id: any, title?: Maybe<string>, slug?: Maybe<string> }> };
 
-export type AllChaptersWithContentQueryVariables = Exact<{ [key: string]: never; }>;
+export type ChapterQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
 
 
-export type AllChaptersWithContentQuery = { __typename: 'Query', allChapters: Array<{ __typename: 'ChapterRecord', title?: Maybe<string>, slug?: Maybe<string>, content?: Maybe<{ __typename: 'ChapterModelContentField', value: any, links: Array<{ __typename: 'ChapterRecord', title?: Maybe<string>, id: any }>, blocks: Array<{ __typename: 'VisualizeGraphicBlockRecord', id: any, graphic?: Maybe<{ __typename: 'VisualizeGraphicRecord', visualizeChartId?: Maybe<string> }> }> }> }> };
+export type ChapterQuery = (
+  { __typename: 'Query', chapter?: Maybe<{ __typename: 'ChapterRecord', title?: Maybe<string>, slug?: Maybe<string>, content?: Maybe<{ __typename: 'ChapterModelContentField', value: any, links: Array<{ __typename: 'ChapterRecord', title?: Maybe<string>, id: any }>, blocks: Array<{ __typename: 'VisualizeGraphicBlockRecord', id: any, graphic?: Maybe<{ __typename: 'VisualizeGraphicRecord', visualizeChartId?: Maybe<string> }> }> }> }> }
+  & SiteMetaFragment
+);
 
-
-export const SiteInfoDocument = gql`
-    query SiteInfo {
+export const SiteMetaFragmentDoc = gql`
+    fragment siteMeta on Query {
   _site {
     globalSeo {
       siteName
@@ -2436,6 +2445,11 @@ export const SiteInfoDocument = gql`
   }
 }
     `;
+export const SiteInfoDocument = gql`
+    query SiteInfo {
+  ...siteMeta
+}
+    ${SiteMetaFragmentDoc}`;
 
 export function useSiteInfoQuery(options: Omit<Urql.UseQueryArgs<SiteInfoQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<SiteInfoQuery>({ query: SiteInfoDocument, ...options });
@@ -2469,9 +2483,10 @@ export const AllChaptersDocument = gql`
 export function useAllChaptersQuery(options: Omit<Urql.UseQueryArgs<AllChaptersQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<AllChaptersQuery>({ query: AllChaptersDocument, ...options });
 };
-export const AllChaptersWithContentDocument = gql`
-    query AllChaptersWithContent {
-  allChapters {
+export const ChapterDocument = gql`
+    query Chapter($slug: String!) {
+  ...siteMeta
+  chapter(filter: {slug: {eq: $slug}}) {
     title
     slug
     content {
@@ -2493,8 +2508,8 @@ export const AllChaptersWithContentDocument = gql`
     }
   }
 }
-    `;
+    ${SiteMetaFragmentDoc}`;
 
-export function useAllChaptersWithContentQuery(options: Omit<Urql.UseQueryArgs<AllChaptersWithContentQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<AllChaptersWithContentQuery>({ query: AllChaptersWithContentDocument, ...options });
+export function useChapterQuery(options: Omit<Urql.UseQueryArgs<ChapterQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ChapterQuery>({ query: ChapterDocument, ...options });
 };
