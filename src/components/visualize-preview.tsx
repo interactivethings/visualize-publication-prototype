@@ -10,7 +10,7 @@ export const VisualizePreview = ({
   <Box>
     <Box
       as="iframe"
-      src={`https://dev.visualize.admin.ch/${locale}/embed/${chartId}`}
+      src={`https://int.visualize.admin.ch/${locale}/embed/${chartId}`}
       sx={{
         // border: "1px solid #f0f0f0",
         width: "100%",

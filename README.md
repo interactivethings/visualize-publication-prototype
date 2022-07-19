@@ -1,5 +1,20 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Installation
+
+Currently requires node 14 to run:
+
+```bash
+npm i
+```
+
+Ensure you set up an .env file with at least the following variables:
+
+```bash
+NEXT_PUBLIC_DATOCMS_API_TOKEN
+NEXT_PUBLIC_DATOCMS_API_ENDPOINT
+```
+
 ## Getting Started
 
 First, run the development server:
