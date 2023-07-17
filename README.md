@@ -2,10 +2,16 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Installation
 
-Currently requires node 14 to run:
+Ensure you have Nix installed and then run:
 
 ```bash
-npm i
+nix-shell
+```
+
+Once the environment is set up, install all dependencies by running:
+
+```bash
+yarn install
 ```
 
 Ensure you set up an .env file with at least the following variables:

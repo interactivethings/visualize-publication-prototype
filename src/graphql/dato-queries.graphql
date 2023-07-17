@@ -50,11 +50,15 @@ query Chapter($slug: String!) {
         }
       }
       blocks {
-        id
         ... on VisualizeGraphicBlockRecord {
+          id
           graphic {
             visualizeChartId
           }
+        }
+        ... on EmbeddedHtmlBlockRecord {
+          id
+          html
         }
       }
     }

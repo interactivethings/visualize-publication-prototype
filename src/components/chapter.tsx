@@ -1,5 +1,5 @@
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { Box, Heading, Link, Text, VStack } from "@chakra-ui/react";
+import { Box, Heading, Link, Text, VStack, AspectRatio } from "@chakra-ui/react";
 import { StructuredText } from "react-datocms";
 import { ChapterModelContentField } from "../graphql/dato-queries";
 import { RouteLink } from "./link";
@@ -83,6 +83,14 @@ export const ChapterContent = ({ content }: { content: any }) => {
                   />
                 </Box>
               );
+            case "EmbeddedHtmlBlockRecord":
+              // TODO: sanitize html (e.g. DOMPurify)
+              // TODO: add style="flex-grow:1;height: 100%;" to iframe container div in Datocms
+              return (
+                <AspectRatio mt="6" w="100%" ratio={16 / 9}>
+                  <div dangerouslySetInnerHTML={{__html: record.html as string}} />
+                </AspectRatio>
+              );
             default:
               return null;
           }
@@ -95,7 +103,6 @@ export const ChapterContent = ({ content }: { content: any }) => {
                   <Link color="green.500">Kapitel {record.title}</Link>
                 </RouteLink>
               );
-
             default:
               return null;
           }

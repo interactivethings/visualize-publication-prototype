@@ -34,9 +34,11 @@ export type BooleanFilter = {
 };
 
 
+export type ChapterModelContentBlocksField = EmbeddedHtmlBlockRecord | VisualizeGraphicBlockRecord;
+
 export type ChapterModelContentField = {
   __typename: 'ChapterModelContentField';
-  blocks: Array<VisualizeGraphicBlockRecord>;
+  blocks: Array<ChapterModelContentBlocksField>;
   links: Array<ChapterRecord>;
   value: Scalars['JsonField'];
 };
@@ -60,11 +62,12 @@ export type ChapterModelFilter = {
   _updatedAt?: Maybe<UpdatedAtFilter>;
   updatedAt?: Maybe<UpdatedAtFilter>;
   _isValid?: Maybe<BooleanFilter>;
-  slug?: Maybe<SlugFilter>;
-  lead?: Maybe<StringFilter>;
   content?: Maybe<StructuredTextFilter>;
+  lead?: Maybe<StringFilter>;
+  slug?: Maybe<SlugFilter>;
   title?: Maybe<StringFilter>;
   OR?: Maybe<Array<Maybe<ChapterModelFilter>>>;
+  AND?: Maybe<Array<Maybe<ChapterModelFilter>>>;
 };
 
 export enum ChapterModelOrderBy {
@@ -99,13 +102,15 @@ export enum ChapterModelOrderBy {
 }
 
 /** Record of type Chapter (chapter) */
-export type ChapterRecord = {
+export type ChapterRecord = RecordInterface & {
   __typename: 'ChapterRecord';
-  _allContentLocales?: Maybe<Array<Maybe<ChapterModelContentFieldMultiLocaleField>>>;
-  _allLeadLocales?: Maybe<Array<Maybe<StringMultiLocaleField>>>;
-  _allSlugLocales?: Maybe<Array<Maybe<StringMultiLocaleField>>>;
-  _allTitleLocales?: Maybe<Array<Maybe<StringMultiLocaleField>>>;
+  _allContentLocales?: Maybe<Array<ChapterModelContentFieldMultiLocaleField>>;
+  _allLeadLocales?: Maybe<Array<StringMultiLocaleField>>;
+  _allSlugLocales?: Maybe<Array<StringMultiLocaleField>>;
+  _allTitleLocales?: Maybe<Array<StringMultiLocaleField>>;
   _createdAt: Scalars['DateTime'];
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars['String']>;
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
   _modelApiKey: Scalars['String'];
@@ -130,24 +135,28 @@ export type ChapterRecord = {
 /** Record of type Chapter (chapter) */
 export type ChapterRecordAllContentLocalesArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 
 /** Record of type Chapter (chapter) */
 export type ChapterRecordAllLeadLocalesArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 
 /** Record of type Chapter (chapter) */
 export type ChapterRecordAllSlugLocalesArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 
 /** Record of type Chapter (chapter) */
 export type ChapterRecordAllTitleLocalesArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 
@@ -160,24 +169,28 @@ export type ChapterRecordSeoMetaTagsArgs = {
 /** Record of type Chapter (chapter) */
 export type ChapterRecordContentArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 
 /** Record of type Chapter (chapter) */
 export type ChapterRecordLeadArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 
 /** Record of type Chapter (chapter) */
 export type ChapterRecordSlugArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 
 /** Record of type Chapter (chapter) */
 export type ChapterRecordTitleArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 export type CollectionMetadata = {
@@ -202,32 +215,67 @@ export enum ColorBucketType {
 
 export type ColorField = {
   __typename: 'ColorField';
-  alpha?: Maybe<Scalars['IntType']>;
-  blue?: Maybe<Scalars['IntType']>;
-  green?: Maybe<Scalars['IntType']>;
-  hex?: Maybe<Scalars['String']>;
-  red?: Maybe<Scalars['IntType']>;
+  alpha: Scalars['IntType'];
+  blue: Scalars['IntType'];
+  cssRgb: Scalars['String'];
+  green: Scalars['IntType'];
+  hex: Scalars['String'];
+  red: Scalars['IntType'];
 };
 
 /** Specifies how to filter by creation datetime */
 export type CreatedAtFilter = {
-  /** Filter records with a value that's strictly greater than the one specified */
+  /** Filter records with a value that's strictly greater than the one specified. Seconds and milliseconds are truncated from the argument. */
   gt?: Maybe<Scalars['DateTime']>;
-  /** Filter records with a value that's less than the one specified */
+  /** Filter records with a value that's less than the one specified. Seconds and milliseconds are truncated from the argument. */
   lt?: Maybe<Scalars['DateTime']>;
-  /** Filter records with a value that's greater than or equal to than the one specified */
+  /** Filter records with a value that's greater than or equal to than the one specified. Seconds and milliseconds are truncated from the argument. */
   gte?: Maybe<Scalars['DateTime']>;
-  /** Filter records with a value that's less or equal than the one specified */
+  /** Filter records with a value that's less or equal than the one specified. Seconds and milliseconds are truncated from the argument. */
   lte?: Maybe<Scalars['DateTime']>;
+  /** Filter records with a value that's within the specified minute range. Seconds and milliseconds are truncated from the argument. */
+  eq?: Maybe<Scalars['DateTime']>;
+  /** Filter records with a value that's outside the specified minute range. Seconds and milliseconds are truncated from the argument. */
+  neq?: Maybe<Scalars['DateTime']>;
   /** Filter records with the specified field defined (i.e. with any value) or not */
   exists?: Maybe<Scalars['BooleanType']>;
-  /** Search for records with an exact match (seconds are truncated) */
-  eq?: Maybe<Scalars['DateTime']>;
-  /** Exclude records with an exact match */
-  neq?: Maybe<Scalars['DateTime']>;
 };
 
 
+
+/** Block of type Embedded HTML Block (embedded_html_block) */
+export type EmbeddedHtmlBlockRecord = RecordInterface & {
+  __typename: 'EmbeddedHtmlBlockRecord';
+  _createdAt: Scalars['DateTime'];
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars['String']>;
+  _firstPublishedAt?: Maybe<Scalars['DateTime']>;
+  _isValid: Scalars['BooleanType'];
+  _modelApiKey: Scalars['String'];
+  _publicationScheduledAt?: Maybe<Scalars['DateTime']>;
+  _publishedAt?: Maybe<Scalars['DateTime']>;
+  /** SEO meta tags */
+  _seoMetaTags: Array<Tag>;
+  _status: ItemStatus;
+  _unpublishingScheduledAt?: Maybe<Scalars['DateTime']>;
+  _updatedAt: Scalars['DateTime'];
+  createdAt: Scalars['DateTime'];
+  html?: Maybe<Scalars['String']>;
+  id: Scalars['ItemId'];
+  updatedAt: Scalars['DateTime'];
+};
+
+
+/** Block of type Embedded HTML Block (embedded_html_block) */
+export type EmbeddedHtmlBlockRecordSeoMetaTagsArgs = {
+  locale?: Maybe<SiteLocale>;
+};
+
+
+/** Block of type Embedded HTML Block (embedded_html_block) */
+export type EmbeddedHtmlBlockRecordHtmlArgs = {
+  markdown?: Maybe<Scalars['Boolean']>;
+};
 
 export enum FaviconType {
   icon = 'icon',
@@ -235,19 +283,21 @@ export enum FaviconType {
   msApplication = 'msApplication'
 }
 
-export type FileField = {
+export type FileField = FileFieldInterface & {
   __typename: 'FileField';
   _createdAt: Scalars['DateTime'];
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars['String']>;
   _updatedAt: Scalars['DateTime'];
   alt?: Maybe<Scalars['String']>;
   author?: Maybe<Scalars['String']>;
   basename: Scalars['String'];
   blurUpThumb?: Maybe<Scalars['String']>;
   blurhash?: Maybe<Scalars['String']>;
-  colors: Array<Maybe<ColorField>>;
+  colors: Array<ColorField>;
   copyright?: Maybe<Scalars['String']>;
-  customData?: Maybe<Scalars['CustomData']>;
-  exifInfo?: Maybe<Scalars['CustomData']>;
+  customData: Scalars['CustomData'];
+  exifInfo: Scalars['CustomData'];
   filename: Scalars['String'];
   focalPoint?: Maybe<FocalPoint>;
   format: Scalars['String'];
@@ -258,8 +308,9 @@ export type FileField = {
   notes?: Maybe<Scalars['String']>;
   responsiveImage?: Maybe<ResponsiveImage>;
   size: Scalars['IntType'];
-  smartTags: Array<Maybe<Scalars['String']>>;
-  tags: Array<Maybe<Scalars['String']>>;
+  smartTags: Array<Scalars['String']>;
+  tags: Array<Scalars['String']>;
+  thumbhash?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   url: Scalars['String'];
   video?: Maybe<UploadVideoField>;
@@ -269,39 +320,123 @@ export type FileField = {
 
 export type FileFieldAltArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 
 export type FileFieldBlurUpThumbArgs = {
-  punch?: Maybe<Scalars['Float']>;
-  size?: Maybe<Scalars['Int']>;
-  quality?: Maybe<Scalars['Int']>;
+  punch?: Scalars['Float'];
+  size?: Scalars['Int'];
+  quality?: Scalars['Int'];
   imgixParams?: Maybe<ImgixParams>;
 };
 
 
 export type FileFieldCustomDataArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 
 export type FileFieldFocalPointArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 
 export type FileFieldResponsiveImageArgs = {
   imgixParams?: Maybe<ImgixParams>;
   sizes?: Maybe<Scalars['String']>;
+  locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 
 export type FileFieldTitleArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 
 export type FileFieldUrlArgs = {
+  imgixParams?: Maybe<ImgixParams>;
+};
+
+export type FileFieldInterface = {
+  _createdAt: Scalars['DateTime'];
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars['String']>;
+  _updatedAt: Scalars['DateTime'];
+  alt?: Maybe<Scalars['String']>;
+  author?: Maybe<Scalars['String']>;
+  basename: Scalars['String'];
+  blurUpThumb?: Maybe<Scalars['String']>;
+  blurhash?: Maybe<Scalars['String']>;
+  colors: Array<ColorField>;
+  copyright?: Maybe<Scalars['String']>;
+  customData: Scalars['CustomData'];
+  exifInfo: Scalars['CustomData'];
+  filename: Scalars['String'];
+  focalPoint?: Maybe<FocalPoint>;
+  format: Scalars['String'];
+  height?: Maybe<Scalars['IntType']>;
+  id: Scalars['UploadId'];
+  md5: Scalars['String'];
+  mimeType: Scalars['String'];
+  notes?: Maybe<Scalars['String']>;
+  responsiveImage?: Maybe<ResponsiveImage>;
+  size: Scalars['IntType'];
+  smartTags: Array<Scalars['String']>;
+  tags: Array<Scalars['String']>;
+  thumbhash?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  url: Scalars['String'];
+  video?: Maybe<UploadVideoField>;
+  width?: Maybe<Scalars['IntType']>;
+};
+
+
+export type FileFieldInterfaceAltArgs = {
+  locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
+};
+
+
+export type FileFieldInterfaceBlurUpThumbArgs = {
+  punch?: Scalars['Float'];
+  size?: Scalars['Int'];
+  quality?: Scalars['Int'];
+  imgixParams?: Maybe<ImgixParams>;
+};
+
+
+export type FileFieldInterfaceCustomDataArgs = {
+  locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
+};
+
+
+export type FileFieldInterfaceFocalPointArgs = {
+  locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
+};
+
+
+export type FileFieldInterfaceResponsiveImageArgs = {
+  imgixParams?: Maybe<ImgixParams>;
+  sizes?: Maybe<Scalars['String']>;
+  locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
+};
+
+
+export type FileFieldInterfaceTitleArgs = {
+  locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
+};
+
+
+export type FileFieldInterfaceUrlArgs = {
   imgixParams?: Maybe<ImgixParams>;
 };
 
@@ -322,6 +457,8 @@ export type ImgixParams = {
    * Specifies an aspect ratio to maintain when resizing and cropping the image
    *
    * Depends on: `fit=crop`
+   *
+   * [Open Imgix reference »](https://docs.imgix.com/apis/url/size/ar)
    */
   ar?: Maybe<Scalars['String']>;
   /**
@@ -332,6 +469,14 @@ export type ImgixParams = {
    * [Open Imgix reference »](https://docs.imgix.com/apis/url/auto)
    */
   auto?: Maybe<Array<ImgixParamsAuto>>;
+  /**
+   * Background Removal
+   *
+   * Removes background from image.
+   *
+   * [Open Imgix reference »](https://docs.imgix.com/apis/rendering/background-removal/bg-remove)
+   */
+  bgRemove?: Maybe<Scalars['BooleanType']>;
   /**
    * Background Color
    *
@@ -480,6 +625,8 @@ export type ImgixParams = {
    * Sets bottom border of an image.
    *
    * Depends on: `border`
+   *
+   * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/border-bottom)
    */
   borderBottom?: Maybe<Scalars['IntType']>;
   /**
@@ -488,6 +635,8 @@ export type ImgixParams = {
    * Sets left border of an image.
    *
    * Depends on: `border`
+   *
+   * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/border-left)
    */
   borderLeft?: Maybe<Scalars['IntType']>;
   /**
@@ -516,6 +665,8 @@ export type ImgixParams = {
    * Sets right border of an image.
    *
    * Depends on: `border`
+   *
+   * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/border-right)
    */
   borderRight?: Maybe<Scalars['IntType']>;
   /**
@@ -524,6 +675,8 @@ export type ImgixParams = {
    * Sets top border of an image.
    *
    * Depends on: `border`
+   *
+   * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/border-top)
    */
   borderTop?: Maybe<Scalars['IntType']>;
   /**
@@ -783,7 +936,19 @@ export type ImgixParams = {
    *
    * [Open Imgix reference »](https://docs.imgix.com/apis/url/focalpoint-crop/fp-z)
    */
-  fpZ?: Maybe<Scalars['IntType']>;
+  fpZ?: Maybe<Scalars['FloatType']>;
+  /**
+   * Frames Per Second
+   *
+   * Specifies the framerate of the generated image.
+   */
+  fps?: Maybe<Scalars['IntType']>;
+  /**
+   * Frame Selection
+   *
+   * Specifies the frame of an animated image to use.
+   */
+  frame?: Maybe<Scalars['String']>;
   /**
    * Gamma
    *
@@ -792,6 +957,12 @@ export type ImgixParams = {
    * [Open Imgix reference »](https://docs.imgix.com/apis/url/adjustment/gam)
    */
   gam?: Maybe<Scalars['IntType']>;
+  /**
+   * Animated Gif Quality
+   *
+   * Depends on: `fm=gif`
+   */
+  gifQ?: Maybe<Scalars['IntType']>;
   /**
    * Grid Colors
    *
@@ -841,6 +1012,12 @@ export type ImgixParams = {
    */
   hue?: Maybe<Scalars['IntType']>;
   /**
+   * Frame Interval
+   *
+   * Displays every Nth frame starting with the first frame.
+   */
+  interval?: Maybe<Scalars['IntType']>;
+  /**
    * Invert
    *
    * Inverts the colors on the source image.
@@ -848,6 +1025,18 @@ export type ImgixParams = {
    * [Open Imgix reference »](https://docs.imgix.com/apis/url/adjustment/invert)
    */
   invert?: Maybe<Scalars['BooleanType']>;
+  /**
+   * Iptc Passthrough
+   *
+   * Determine if IPTC data should be passed for JPEG images.
+   */
+  iptc?: Maybe<ImgixParamsIptc>;
+  /**
+   * Animation Loop Count
+   *
+   * Specifies the number of times an animated image should repeat. A value of 0 means infinite looping.
+   */
+  loop?: Maybe<Scalars['IntType']>;
   /**
    * Lossless Compression
    *
@@ -919,6 +1108,14 @@ export type ImgixParams = {
    */
   markPad?: Maybe<Scalars['IntType']>;
   /**
+   * Watermark Rotation
+   *
+   * Rotates a watermark or tiled watermarks by a specified number of degrees.
+   *
+   * [Open Imgix reference »](https://docs.imgix.com/apis/url/watermark/mark-rot)
+   */
+  markRot?: Maybe<Scalars['FloatType']>;
+  /**
    * Watermark Scale
    *
    * Adjusts the scale of the watermark image.
@@ -928,6 +1125,16 @@ export type ImgixParams = {
    * [Open Imgix reference »](https://docs.imgix.com/apis/url/watermark/mark-scale)
    */
   markScale?: Maybe<Scalars['IntType']>;
+  /**
+   * Watermark Tile
+   *
+   * Adds tiled watermark.
+   *
+   * Depends on: `mark`
+   *
+   * [Open Imgix reference »](https://docs.imgix.com/apis/url/watermark/mark-tile)
+   */
+  markTile?: Maybe<ImgixParamsMarkTile>;
   /**
    * Watermark Width
    *
@@ -1060,24 +1267,32 @@ export type ImgixParams = {
    * Padding Bottom
    *
    * Sets bottom padding of an image.
+   *
+   * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/pad-bottom)
    */
   padBottom?: Maybe<Scalars['IntType']>;
   /**
    * Padding Left
    *
    * Sets left padding of an image.
+   *
+   * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/pad-left)
    */
   padLeft?: Maybe<Scalars['IntType']>;
   /**
    * Padding Right
    *
    * Sets right padding of an image.
+   *
+   * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/pad-right)
    */
   padRight?: Maybe<Scalars['IntType']>;
   /**
    * Padding Top
    *
    * Sets top padding of an image.
+   *
+   * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/pad-top)
    */
   padTop?: Maybe<Scalars['IntType']>;
   /**
@@ -1093,7 +1308,7 @@ export type ImgixParams = {
    *
    * Selects a page from a PDF for display.
    *
-   * [Open Imgix reference »](https://docs.imgix.com/apis/url/pdf-page-number)
+   * [Open Imgix reference »](https://docs.imgix.com/apis/url/pdf/page)
    */
   page?: Maybe<Scalars['IntType']>;
   /**
@@ -1104,6 +1319,14 @@ export type ImgixParams = {
    * [Open Imgix reference »](https://docs.imgix.com/apis/url/color-palette/palette)
    */
   palette?: Maybe<ImgixParamsPalette>;
+  /**
+   * Pdf Annotation
+   *
+   * Enables or disables PDF annotation.
+   *
+   * [Open Imgix reference »](https://docs.imgix.com/apis/url/pdf/pdf-annotation)
+   */
+  pdfAnnotation?: Maybe<Scalars['BooleanType']>;
   /**
    * Css Prefix
    *
@@ -1140,6 +1363,12 @@ export type ImgixParams = {
    * [Open Imgix reference »](https://docs.imgix.com/apis/url/size/rect)
    */
   rect?: Maybe<Scalars['String']>;
+  /**
+   * Reverse
+   *
+   * Reverses the frame order on the source animation.
+   */
+  reverse?: Maybe<Scalars['BooleanType']>;
   /**
    * Rotation
    *
@@ -1181,9 +1410,17 @@ export type ImgixParams = {
    */
   sharp?: Maybe<Scalars['FloatType']>;
   /**
+   * Frame Skip
+   *
+   * Skips every Nth frame starting with the first frame.
+   */
+  skip?: Maybe<Scalars['IntType']>;
+  /**
    * Transparency
    *
    * Adds checkerboard behind images which support transparency.
+   *
+   * [Open Imgix reference »](https://docs.imgix.com/apis/url/fill/transparency)
    */
   transparency?: Maybe<ImgixParamsTransparency>;
   /**
@@ -1385,6 +1622,26 @@ export type ImgixParams = {
    */
   txtWidth?: Maybe<Scalars['IntType']>;
   /**
+   * Text X Position
+   *
+   * Sets the horizontal (x) position of the text in pixels relative to the left edge of the base image.
+   *
+   * Depends on: `txt`
+   *
+   * [Open Imgix reference »](https://docs.imgix.com/apis/url/text/txt-x)
+   */
+  txtX?: Maybe<Scalars['IntType']>;
+  /**
+   * Text Y Position
+   *
+   * Sets the vertical (y) position of the text in pixels relative to the top edge of the base image.
+   *
+   * Depends on: `txt`
+   *
+   * [Open Imgix reference »](https://docs.imgix.com/apis/url/text/txt-y)
+   */
+  txtY?: Maybe<Scalars['IntType']>;
+  /**
    * Text String
    *
    * Sets the text string to render.
@@ -1542,7 +1799,14 @@ export enum ImgixParamsFm {
   png8 = 'png8',
   png32 = 'png32',
   webp = 'webp',
-  webm = 'webm'
+  webm = 'webm',
+  blurhash = 'blurhash',
+  avif = 'avif'
+}
+
+export enum ImgixParamsIptc {
+  allow = 'allow',
+  block = 'block'
 }
 
 export enum ImgixParamsMarkAlign {
@@ -1560,6 +1824,10 @@ export enum ImgixParamsMarkFit {
   fill = 'fill',
   max = 'max',
   scale = 'scale'
+}
+
+export enum ImgixParamsMarkTile {
+  grid = 'grid'
 }
 
 export enum ImgixParamsPalette {
@@ -1623,6 +1891,16 @@ export enum ItemStatus {
 }
 
 
+/** Specifies how to filter by locale */
+export type LocalesFilter = {
+  /** Filter records that are localized in all the specified locales */
+  allIn?: Maybe<Array<SiteLocale>>;
+  /** Filter records that are localized in at least one of the specified locales */
+  anyIn?: Maybe<Array<SiteLocale>>;
+  /** Filter records that are not localized in any of the specified locales */
+  notIn?: Maybe<Array<SiteLocale>>;
+};
+
 
 export enum MuxThumbnailFormatType {
   jpg = 'jpg',
@@ -1656,20 +1934,20 @@ export type PositionFilter = {
 
 /** Specifies how to filter by publication datetime */
 export type PublishedAtFilter = {
-  /** Filter records with a value that's strictly greater than the one specified */
+  /** Filter records with a value that's strictly greater than the one specified. Seconds and milliseconds are truncated from the argument. */
   gt?: Maybe<Scalars['DateTime']>;
-  /** Filter records with a value that's less than the one specified */
+  /** Filter records with a value that's less than the one specified. Seconds and milliseconds are truncated from the argument. */
   lt?: Maybe<Scalars['DateTime']>;
-  /** Filter records with a value that's greater than or equal to than the one specified */
+  /** Filter records with a value that's greater than or equal to than the one specified. Seconds and milliseconds are truncated from the argument. */
   gte?: Maybe<Scalars['DateTime']>;
-  /** Filter records with a value that's less or equal than the one specified */
+  /** Filter records with a value that's less or equal than the one specified. Seconds and milliseconds are truncated from the argument. */
   lte?: Maybe<Scalars['DateTime']>;
+  /** Filter records with a value that's within the specified minute range. Seconds and milliseconds are truncated from the argument. */
+  eq?: Maybe<Scalars['DateTime']>;
+  /** Filter records with a value that's outside the specified minute range. Seconds and milliseconds are truncated from the argument. */
+  neq?: Maybe<Scalars['DateTime']>;
   /** Filter records with the specified field defined (i.e. with any value) or not */
   exists?: Maybe<Scalars['BooleanType']>;
-  /** Search for records with an exact match (seconds are truncated) */
-  eq?: Maybe<Scalars['DateTime']>;
-  /** Exclude records with an exact match */
-  neq?: Maybe<Scalars['DateTime']>;
 };
 
 /** The query root for this schema */
@@ -1678,7 +1956,7 @@ export type Query = {
   /** Returns meta information regarding a record collection */
   _allChaptersMeta: CollectionMetadata;
   /** Returns meta information regarding an assets collection */
-  _allUploadsMeta?: Maybe<CollectionMetadata>;
+  _allUploadsMeta: CollectionMetadata;
   /** Returns meta information regarding a record collection */
   _allVisualizeGraphicsMeta: CollectionMetadata;
   /** Returns the single instance record */
@@ -1702,6 +1980,7 @@ export type Query = {
 export type QueryAllChaptersMetaArgs = {
   locale?: Maybe<SiteLocale>;
   filter?: Maybe<ChapterModelFilter>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 
@@ -1716,18 +1995,21 @@ export type QueryAllUploadsMetaArgs = {
 export type QueryAllVisualizeGraphicsMetaArgs = {
   locale?: Maybe<SiteLocale>;
   filter?: Maybe<VisualizeGraphicModelFilter>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 
 /** The query root for this schema */
 export type QuerySiteArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 
 /** The query root for this schema */
 export type QueryAllChaptersArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
   skip?: Maybe<Scalars['IntType']>;
   first?: Maybe<Scalars['IntType']>;
   filter?: Maybe<ChapterModelFilter>;
@@ -1738,6 +2020,7 @@ export type QueryAllChaptersArgs = {
 /** The query root for this schema */
 export type QueryAllUploadsArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
   skip?: Maybe<Scalars['IntType']>;
   first?: Maybe<Scalars['IntType']>;
   filter?: Maybe<UploadFilter>;
@@ -1748,6 +2031,7 @@ export type QueryAllUploadsArgs = {
 /** The query root for this schema */
 export type QueryAllVisualizeGraphicsArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
   skip?: Maybe<Scalars['IntType']>;
   first?: Maybe<Scalars['IntType']>;
   filter?: Maybe<VisualizeGraphicModelFilter>;
@@ -1758,6 +2042,7 @@ export type QueryAllVisualizeGraphicsArgs = {
 /** The query root for this schema */
 export type QueryChapterArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
   filter?: Maybe<ChapterModelFilter>;
   orderBy?: Maybe<Array<Maybe<ChapterModelOrderBy>>>;
 };
@@ -1766,6 +2051,7 @@ export type QueryChapterArgs = {
 /** The query root for this schema */
 export type QueryUploadArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
   filter?: Maybe<UploadFilter>;
   orderBy?: Maybe<Array<Maybe<UploadOrderBy>>>;
 };
@@ -1774,8 +2060,31 @@ export type QueryUploadArgs = {
 /** The query root for this schema */
 export type QueryVisualizeGraphicArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
   filter?: Maybe<VisualizeGraphicModelFilter>;
   orderBy?: Maybe<Array<Maybe<VisualizeGraphicModelOrderBy>>>;
+};
+
+export type RecordInterface = {
+  _createdAt: Scalars['DateTime'];
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars['String']>;
+  _firstPublishedAt?: Maybe<Scalars['DateTime']>;
+  _isValid: Scalars['BooleanType'];
+  _modelApiKey: Scalars['String'];
+  _publicationScheduledAt?: Maybe<Scalars['DateTime']>;
+  _publishedAt?: Maybe<Scalars['DateTime']>;
+  /** SEO meta tags */
+  _seoMetaTags: Array<Tag>;
+  _status: ItemStatus;
+  _unpublishingScheduledAt?: Maybe<Scalars['DateTime']>;
+  _updatedAt: Scalars['DateTime'];
+  id: Scalars['ItemId'];
+};
+
+
+export type RecordInterfaceSeoMetaTagsArgs = {
+  locale?: Maybe<SiteLocale>;
 };
 
 /** Specifies how to filter by upload type */
@@ -1825,6 +2134,7 @@ export type Site = {
   favicon?: Maybe<FileField>;
   faviconMetaTags: Array<Tag>;
   globalSeo?: Maybe<GlobalSeoField>;
+  locales: Array<SiteLocale>;
 };
 
 
@@ -1835,6 +2145,7 @@ export type SiteFaviconMetaTagsArgs = {
 
 export type SiteGlobalSeoArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 export enum SiteLocale {
@@ -1874,6 +2185,8 @@ export type StringFilter = {
   notMatches?: Maybe<StringMatchesFilter>;
   /** Filter records with the specified field set as blank (null or empty string) */
   isBlank?: Maybe<Scalars['BooleanType']>;
+  /** Filter records with the specified field present (neither null, nor empty string) */
+  isPresent?: Maybe<Scalars['BooleanType']>;
   /** Search for records with an exact match */
   eq?: Maybe<Scalars['String']>;
   /** Exclude records with an exact match */
@@ -1882,7 +2195,7 @@ export type StringFilter = {
   in?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Filter records that do not equal one of the specified values */
   notIn?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Filter records with the specified field defined (i.e. with any value) or not */
+  /** Filter records with the specified field defined (i.e. with any value) or not [DEPRECATED] */
   exists?: Maybe<Scalars['BooleanType']>;
 };
 
@@ -1906,7 +2219,9 @@ export type StructuredTextFilter = {
   notMatches?: Maybe<StringMatchesFilter>;
   /** Filter records with the specified field set as blank (null or single empty paragraph) */
   isBlank?: Maybe<Scalars['BooleanType']>;
-  /** Filter records with the specified field defined (i.e. with any value) or not */
+  /** Filter records with the specified field present (neither null, nor empty string) */
+  isPresent?: Maybe<Scalars['BooleanType']>;
+  /** Filter records with the specified field defined (i.e. with any value) or not [DEPRECATED] */
   exists?: Maybe<Scalars['BooleanType']>;
 };
 
@@ -1931,20 +2246,20 @@ export type TypeFilter = {
 
 /** Specifies how to filter by update datetime */
 export type UpdatedAtFilter = {
-  /** Filter records with a value that's strictly greater than the one specified */
+  /** Filter records with a value that's strictly greater than the one specified. Seconds and milliseconds are truncated from the argument. */
   gt?: Maybe<Scalars['DateTime']>;
-  /** Filter records with a value that's less than the one specified */
+  /** Filter records with a value that's less than the one specified. Seconds and milliseconds are truncated from the argument. */
   lt?: Maybe<Scalars['DateTime']>;
-  /** Filter records with a value that's greater than or equal to than the one specified */
+  /** Filter records with a value that's greater than or equal to than the one specified. Seconds and milliseconds are truncated from the argument. */
   gte?: Maybe<Scalars['DateTime']>;
-  /** Filter records with a value that's less or equal than the one specified */
+  /** Filter records with a value that's less or equal than the one specified. Seconds and milliseconds are truncated from the argument. */
   lte?: Maybe<Scalars['DateTime']>;
+  /** Filter records with a value that's within the specified minute range. Seconds and milliseconds are truncated from the argument. */
+  eq?: Maybe<Scalars['DateTime']>;
+  /** Filter records with a value that's outside the specified minute range. Seconds and milliseconds are truncated from the argument. */
+  neq?: Maybe<Scalars['DateTime']>;
   /** Filter records with the specified field defined (i.e. with any value) or not */
   exists?: Maybe<Scalars['BooleanType']>;
-  /** Search for records with an exact match (seconds are truncated) */
-  eq?: Maybe<Scalars['DateTime']>;
-  /** Exclude records with an exact match */
-  neq?: Maybe<Scalars['DateTime']>;
 };
 
 /** Specifies how to filter by default alt */
@@ -2056,6 +2371,7 @@ export type UploadFilter = {
   _createdAt?: Maybe<UploadCreatedAtFilter>;
   _updatedAt?: Maybe<UploadUpdatedAtFilter>;
   OR?: Maybe<Array<Maybe<UploadFilter>>>;
+  AND?: Maybe<Array<Maybe<UploadFilter>>>;
 };
 
 /** Specifies how to filter by format */
@@ -2166,17 +2482,17 @@ export enum UploadOrientation {
 
 /** Specifies how to filter by size */
 export type UploadSizeFilter = {
-  /** Search all assets larger than the specified size */
+  /** Search all assets larger than the specified size (in bytes) */
   gt?: Maybe<Scalars['IntType']>;
-  /** Search all assets smaller than the specified size */
+  /** Search all assets smaller than the specified size (in bytes) */
   lt?: Maybe<Scalars['IntType']>;
-  /** Search all assets larger or equal to the specified size */
+  /** Search all assets larger or equal to the specified size (in bytes) */
   gte?: Maybe<Scalars['IntType']>;
-  /** Search all assets larger or equal to the specified size */
+  /** Search all assets larger or equal to the specified size (in bytes) */
   lte?: Maybe<Scalars['IntType']>;
-  /** Search assets with the specified size */
+  /** Search assets with the specified size (in bytes) */
   eq?: Maybe<Scalars['IntType']>;
-  /** Search assets that do not have the specified size */
+  /** Search assets that do not have the specified size (in bytes) */
   neq?: Maybe<Scalars['IntType']>;
 };
 
@@ -2185,13 +2501,13 @@ export type UploadTagsFilter = {
   /** Filter uploads linked to the specified tag */
   contains?: Maybe<Scalars['String']>;
   /** Filter uploads linked to all of the specified tags */
-  allIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  allIn?: Maybe<Array<Scalars['String']>>;
   /** Filter uploads linked to at least one of the specified tags */
-  anyIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  anyIn?: Maybe<Array<Scalars['String']>>;
   /** Filter uploads not linked to any of the specified tags */
-  notIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  notIn?: Maybe<Array<Scalars['String']>>;
   /** Search for uploads with an exact match */
-  eq?: Maybe<Array<Maybe<Scalars['String']>>>;
+  eq?: Maybe<Array<Scalars['String']>>;
 };
 
 /** Specifies how to filter by default title */
@@ -2241,8 +2557,8 @@ export type UploadUpdatedAtFilter = {
 
 export type UploadVideoField = {
   __typename: 'UploadVideoField';
-  duration: Scalars['Int'];
-  framerate: Scalars['Int'];
+  duration?: Maybe<Scalars['Int']>;
+  framerate?: Maybe<Scalars['Int']>;
   mp4Url?: Maybe<Scalars['String']>;
   muxAssetId: Scalars['String'];
   muxPlaybackId: Scalars['String'];
@@ -2283,10 +2599,12 @@ export enum VideoMp4Res {
   high = 'high'
 }
 
-/** Record of type Visualize Graphic Block (visualize_graphic_block) */
-export type VisualizeGraphicBlockRecord = {
+/** Block of type Visualize Graphic Block (visualize_graphic_block) */
+export type VisualizeGraphicBlockRecord = RecordInterface & {
   __typename: 'VisualizeGraphicBlockRecord';
   _createdAt: Scalars['DateTime'];
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars['String']>;
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
   _modelApiKey: Scalars['String'];
@@ -2304,7 +2622,7 @@ export type VisualizeGraphicBlockRecord = {
 };
 
 
-/** Record of type Visualize Graphic Block (visualize_graphic_block) */
+/** Block of type Visualize Graphic Block (visualize_graphic_block) */
 export type VisualizeGraphicBlockRecordSeoMetaTagsArgs = {
   locale?: Maybe<SiteLocale>;
 };
@@ -2321,10 +2639,12 @@ export type VisualizeGraphicModelFilter = {
   _updatedAt?: Maybe<UpdatedAtFilter>;
   updatedAt?: Maybe<UpdatedAtFilter>;
   _isValid?: Maybe<BooleanFilter>;
+  _locales?: Maybe<LocalesFilter>;
   slug?: Maybe<SlugFilter>;
-  visualizeChartId?: Maybe<StringFilter>;
   title?: Maybe<StringFilter>;
+  visualizeChartId?: Maybe<StringFilter>;
   OR?: Maybe<Array<Maybe<VisualizeGraphicModelFilter>>>;
+  AND?: Maybe<Array<Maybe<VisualizeGraphicModelFilter>>>;
 };
 
 export enum VisualizeGraphicModelOrderBy {
@@ -2350,20 +2670,23 @@ export enum VisualizeGraphicModelOrderBy {
   updatedAt_DESC = 'updatedAt_DESC',
   _isValid_ASC = '_isValid_ASC',
   _isValid_DESC = '_isValid_DESC',
-  visualizeChartId_ASC = 'visualizeChartId_ASC',
-  visualizeChartId_DESC = 'visualizeChartId_DESC',
   title_ASC = 'title_ASC',
-  title_DESC = 'title_DESC'
+  title_DESC = 'title_DESC',
+  visualizeChartId_ASC = 'visualizeChartId_ASC',
+  visualizeChartId_DESC = 'visualizeChartId_DESC'
 }
 
 /** Record of type Visualize Graphic (visualize_graphic) */
-export type VisualizeGraphicRecord = {
+export type VisualizeGraphicRecord = RecordInterface & {
   __typename: 'VisualizeGraphicRecord';
-  _allSlugLocales?: Maybe<Array<Maybe<StringMultiLocaleField>>>;
-  _allTitleLocales?: Maybe<Array<Maybe<StringMultiLocaleField>>>;
+  _allSlugLocales?: Maybe<Array<StringMultiLocaleField>>;
+  _allTitleLocales?: Maybe<Array<StringMultiLocaleField>>;
   _createdAt: Scalars['DateTime'];
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars['String']>;
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
+  _locales: Array<SiteLocale>;
   _modelApiKey: Scalars['String'];
   _publicationScheduledAt?: Maybe<Scalars['DateTime']>;
   _publishedAt?: Maybe<Scalars['DateTime']>;
@@ -2384,12 +2707,14 @@ export type VisualizeGraphicRecord = {
 /** Record of type Visualize Graphic (visualize_graphic) */
 export type VisualizeGraphicRecordAllSlugLocalesArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 
 /** Record of type Visualize Graphic (visualize_graphic) */
 export type VisualizeGraphicRecordAllTitleLocalesArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 
@@ -2402,18 +2727,20 @@ export type VisualizeGraphicRecordSeoMetaTagsArgs = {
 /** Record of type Visualize Graphic (visualize_graphic) */
 export type VisualizeGraphicRecordSlugArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 
 /** Record of type Visualize Graphic (visualize_graphic) */
 export type VisualizeGraphicRecordTitleArgs = {
   locale?: Maybe<SiteLocale>;
+  fallbackLocales?: Maybe<Array<SiteLocale>>;
 };
 
 export type FocalPoint = {
   __typename: 'focalPoint';
-  x?: Maybe<Scalars['FloatType']>;
-  y?: Maybe<Scalars['FloatType']>;
+  x: Scalars['FloatType'];
+  y: Scalars['FloatType'];
 };
 
 export type SiteMetaFragment = { __typename: 'Query', _site: { __typename: 'Site', globalSeo?: Maybe<{ __typename: 'GlobalSeoField', siteName?: Maybe<string>, fallbackSeo?: Maybe<{ __typename: 'SeoField', description?: Maybe<string>, title?: Maybe<string>, twitterCard?: Maybe<string> }> }> } };
@@ -2442,7 +2769,7 @@ export type ChapterQueryVariables = Exact<{
 
 
 export type ChapterQuery = (
-  { __typename: 'Query', chapter?: Maybe<{ __typename: 'ChapterRecord', title?: Maybe<string>, slug?: Maybe<string>, position?: Maybe<any>, content?: Maybe<{ __typename: 'ChapterModelContentField', value: any, links: Array<{ __typename: 'ChapterRecord', id: any, title?: Maybe<string>, slug?: Maybe<string>, position?: Maybe<any> }>, blocks: Array<{ __typename: 'VisualizeGraphicBlockRecord', id: any, graphic?: Maybe<{ __typename: 'VisualizeGraphicRecord', visualizeChartId?: Maybe<string> }> }> }> }> }
+  { __typename: 'Query', chapter?: Maybe<{ __typename: 'ChapterRecord', title?: Maybe<string>, slug?: Maybe<string>, position?: Maybe<any>, content?: Maybe<{ __typename: 'ChapterModelContentField', value: any, links: Array<{ __typename: 'ChapterRecord', id: any, title?: Maybe<string>, slug?: Maybe<string>, position?: Maybe<any> }>, blocks: Array<{ __typename: 'EmbeddedHtmlBlockRecord', id: any, html?: Maybe<string> } | { __typename: 'VisualizeGraphicBlockRecord', id: any, graphic?: Maybe<{ __typename: 'VisualizeGraphicRecord', visualizeChartId?: Maybe<string> }> }> }> }> }
   & SiteMetaFragment
 );
 
@@ -2525,11 +2852,15 @@ export const ChapterDocument = gql`
         }
       }
       blocks {
-        id
         ... on VisualizeGraphicBlockRecord {
+          id
           graphic {
             visualizeChartId
           }
+        }
+        ... on EmbeddedHtmlBlockRecord {
+          id
+          html
         }
       }
     }
